@@ -173,7 +173,6 @@ public class DefaultImageLoadHandler implements ImageLoadHandler {
 
         Drawable d = drawable;
         if (drawable != null) {
-
             if (mResizeImageViewAfterLoad) {
                 int w = drawable.getBitmap().getWidth();
                 int h = drawable.getBitmap().getHeight();
@@ -217,4 +216,6 @@ public class DefaultImageLoadHandler implements ImageLoadHandler {
             }
         }
     }
+    
+	
 }

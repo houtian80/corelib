@@ -102,8 +102,16 @@ public class ImageLoader implements LifeCycleComponent {
     public ImageProvider getImageProvider() {
         return mImageProvider;
     }
+    
+    public ImageTaskExecutor getmImageTaskExecutor() {
+		return mImageTaskExecutor;
+	}
 
-    /**
+	public void setmImageTaskExecutor(ImageTaskExecutor mImageTaskExecutor) {
+		this.mImageTaskExecutor = mImageTaskExecutor;
+	}
+
+	/**
      * Load the image in advance.
      */
     public void preLoadImages(String[] urls) {
@@ -231,7 +239,7 @@ public class ImageLoader implements LifeCycleComponent {
         }
     }
 
-    private LoadImageTask createLoadImageTask(ImageTask imageTask) {
+    public LoadImageTask createLoadImageTask(ImageTask imageTask) {
         // pop top, make top.next as top
         synchronized (sPoolSync) {
             if (sTopLoadImageTask != null) {
@@ -256,7 +264,7 @@ public class ImageLoader implements LifeCycleComponent {
      *
      * @author http://www.liaohuqiu.net
      */
-    private static class LoadImageTask extends SimpleTask {
+    public static class LoadImageTask extends SimpleTask {
 
         private ImageTask mImageTask;
         private BitmapDrawable mDrawable;
@@ -301,7 +309,7 @@ public class ImageLoader implements LifeCycleComponent {
             // thread and the ImageView that was originally bound to this task is still bound back
             // to this task and our "exit early" flag is not set then try and fetch the bitmap from
             // the cache
-            if (!isCancelled() && !mImageLoader.mExitTasksEarly && (mImageTask.isPreLoad() || mImageTask.stillHasRelatedImageView())) {
+            if (!isCancelled() && !mImageLoader.mExitTasksEarly && (mImageTask.isPreLoad() || true)) {
                 try {
                     bitmap = mImageLoader.mImageProvider.fetchBitmapData(mImageLoader, mImageTask, mImageLoader.mImageReSizer);
 //                    if (DEBUG) {

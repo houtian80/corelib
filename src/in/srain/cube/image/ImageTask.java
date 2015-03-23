@@ -1,6 +1,7 @@
 package in.srain.cube.image;
 
 import in.srain.cube.image.iface.ImageLoadHandler;
+import in.srain.cube.image.impl.LoadFinish;
 import in.srain.cube.util.CubeDebug;
 import in.srain.cube.util.Encrypt;
 
@@ -34,6 +35,8 @@ public class ImageTask {
     public final static int ERROR_NETWORK = 0x01;
     public final static int ERROR_BAD_FORMAT = 0x02;
 
+    private LoadFinish loadFinish;
+    
     /**
      * bits:
      * 1 error-code
@@ -287,7 +290,9 @@ public class ImageTask {
      * @return
      */
     public boolean stillHasRelatedImageView() {
-        if (null == mFirstImageViewHolder || mFirstImageViewHolder.getImageView() == null) {
+        if (null == mFirstImageViewHolder
+//        		|| mFirstImageViewHolder.getImageView() == null
+        		) {
             return false;
         } else {
             return true;
@@ -350,6 +355,10 @@ public class ImageTask {
             return;
         }
 
+        if(loadFinish != null){
+        	loadFinish.onLoadFinish(drawable);
+        }
+        
         if (null != mImageTaskStatistics) {
             mImageTaskStatistics.showBegin();
         }
@@ -509,7 +518,16 @@ public class ImageTask {
         return mImageTaskStatistics;
     }
 
-    /**
+    public LoadFinish getLoadFinish() {
+		return loadFinish;
+	}
+
+	public void setLoadFinish(LoadFinish loadFinish) {
+		this.loadFinish = loadFinish;
+	}
+
+
+	/**
      * A tiny and light linked-list like container to hold all the ImageViews related to the ImageTask.
      */
     private static class ImageViewHolder {
